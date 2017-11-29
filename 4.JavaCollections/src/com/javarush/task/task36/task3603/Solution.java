@@ -12,7 +12,8 @@ public class Solution {
         CopyOnWriteArrayList<String> list = new CopyOnWriteArrayList();
         list.add("A");
         list.add("B");
-        list.add("C");
+        list.add("C"); //new commit
+        list.add("E");
         list.remove("B");
         List<String> collection = Arrays.asList(new String[]{"B", "C", "D", "B"});
 
