@@ -6,7 +6,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 /* 
 Использование TreeSet
@@ -18,7 +17,11 @@ public class Solution {
         while (bufferedReader.ready()){
             sb.append(bufferedReader.readLine().toLowerCase().replaceAll("[^A-Za-z]", ""));
         }
-        TreeSet<Character> set = new TreeSet<>(sb.toString().chars().mapToObj(e->(char)e).collect(Collectors.toList()));
+        TreeSet<Character> set = new TreeSet<>();
+        char[] array = sb.toString().toCharArray();
+        for (int i = 0; i < array.length; i++) {
+            set.add(array[i]);
+        }
         set.stream().limit(5).forEach(System.out::print);
 
 
