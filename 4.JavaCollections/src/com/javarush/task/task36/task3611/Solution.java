@@ -1,7 +1,7 @@
 package com.javarush.task.task36.task3611;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 /* 
 Сколько у человека потенциальных друзей?
@@ -21,7 +21,16 @@ public class Solution {
     }
 
     public Set<Integer> getAllFriendsAndPotentialFriends(int index, int deep) {
-        //напишите тут ваш код
+        TreeSet<Integer> set = new TreeSet<>();
+        for (int i = 0; i < humansRelationships.length; i++) {
+            if ((i < index) && (index < humansRelationships.length) && humansRelationships[index][i]) {
+                set.add(i);
+
+            } else if ((i > index) && humansRelationships[i][index]) {
+                set.add(i);
+            }
+        }
+        return set;
     }
 
     //remove people from set, with which you have already had relationship
