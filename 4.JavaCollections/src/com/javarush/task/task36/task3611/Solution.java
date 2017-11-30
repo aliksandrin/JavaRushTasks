@@ -22,14 +22,16 @@ public class Solution {
 
     public Set<Integer> getAllFriendsAndPotentialFriends(int index, int deep) {
         TreeSet<Integer> set = new TreeSet<>();
-        for (int i = 0; i < humansRelationships.length; i++) {
-            if ((i < index) && (index < humansRelationships.length) && humansRelationships[index][i]) {
-                set.add(i);
-
-            } else if ((i > index) && humansRelationships[i][index]) {
-                set.add(i);
+        if (deep > 0) {
+            --deep;
+            for (int i = 0; i < humansRelationships.length; i++) {
+                if (((i < index) && (index < humansRelationships.length) && humansRelationships[index][i]) || (i > index) && humansRelationships[i][index]) {
+                    set.add(i);
+                    set.addAll(getAllFriendsAndPotentialFriends(i, deep));
+                }
             }
         }
+        set.remove(index);
         return set;
     }
 
