@@ -1,6 +1,10 @@
 package com.javarush.task.task36.task3606;
 
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,33 +31,46 @@ public class Solution {
         packageName = packageName.replaceAll("%20", " ");
         File file = new File(packageName);
         File[] files = file.listFiles();
-        for(File names: files){
-            if (names.getName().endsWith(".class")){
-                String name = names.getAbsolutePath().split(".class")[0];
-                hiddenClasses.add(Class.forName(name));
-            }
+        MyLoader loader = new MyLoader();
+        for (File names : files) {
+            hiddenClasses.add(loader.load(names.toPath()));
         }
     }
 
     public HiddenClass getHiddenClassObjectByKey(String key) {
-        for (Class cl : hiddenClasses){
+        for (Class<?> cl : hiddenClasses) {
             try {
-                if (cl.getSimpleName().contains(key)) return (HiddenClass) cl.getConstructor(null).newInstance();
+                if (cl.getSimpleName().toLowerCase().startsWith(key.toLowerCase())) {
+                    Constructor[] constructors = cl.getDeclaredConstructors();
+                    for (Constructor constructor : constructors) {
+                        if (constructor.getParameterCount() == 0) {
+                            constructor.setAccessible(true);
+                            return (HiddenClass) constructor.newInstance();
+                        }
+                    }
+
+
+                }
+            } catch (Exception e) {
+
             }
-            catch (Exception e){}
         }
         return null;
     }
 
-    class myLoader extends ClassLoader{
-        @Override
-        protected Class<?> findClass(String s) throws ClassNotFoundException {
-            return super.findClass(s);
-        }
+    class MyLoader extends ClassLoader {
 
-        @Override
-        public Class<?> loadClass(String s) throws ClassNotFoundException {
-            return super.loadClass(s);
+        public Class<?> load(Path path) {
+            try {
+                if (path.getFileName().toString().lastIndexOf(".class") == -1)
+                    return null;
+
+                byte[] b = Files.readAllBytes(path);
+                return defineClass(null, b, 0, b.length); //here main magic
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
 
 
