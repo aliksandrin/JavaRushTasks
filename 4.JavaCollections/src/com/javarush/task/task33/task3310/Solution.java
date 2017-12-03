@@ -3,9 +3,7 @@ package com.javarush.task.task33.task3310;
 import com.javarush.task.task33.task3310.strategy.HashMapStorageStrategy;
 import com.javarush.task.task33.task3310.strategy.StorageStrategy;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Solution {
     public static void main(String[] args) {
