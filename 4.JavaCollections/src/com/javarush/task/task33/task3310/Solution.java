@@ -1,14 +1,22 @@
 package com.javarush.task.task33.task3310;
 
+import com.javarush.task.task33.task3310.strategy.FileStorageStrategy;
 import com.javarush.task.task33.task3310.strategy.HashMapStorageStrategy;
+import com.javarush.task.task33.task3310.strategy.OurHashMapStorageStrategy;
 import com.javarush.task.task33.task3310.strategy.StorageStrategy;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Solution {
     public static void main(String[] args) {
         HashMapStorageStrategy strategy = new HashMapStorageStrategy();
         testStrategy(strategy, 10000);
+        OurHashMapStorageStrategy strategy1 = new OurHashMapStorageStrategy();
+        testStrategy(strategy1, 10000);
+        FileStorageStrategy strategy2 = new FileStorageStrategy();
+        testStrategy(strategy2, 500);
 
     }
 
